@@ -1,0 +1,11 @@
+[tool.ruff]
+line-length = 88
+select = ["E", "F", "I", "PT"]
+ignore = []
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
