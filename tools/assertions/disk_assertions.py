@@ -40,3 +40,19 @@ class DiskAssertions:
             201,
             202,
         ], f"Ошибка восстановления! Статус: {response.status_code}, Ответ: {response.text}"
+
+    @staticmethod
+    @allure.step("Проверка сообщения об ошибке содержи  {expected_message}")
+    def assert_error_message(response, expected_message):
+        actual_message = response.json().get("message")
+        assert (
+            expected_message in actual_message
+        ), f"Ожидали, что сообщение содержит '{expected_message}', но получили '{actual_message}'"
+
+    @staticmethod
+    @allure.step("Проверка успешного удаления (202 или 204)")
+    def assert_delete_success(response):
+        assert response.status_code in [202, 204], (
+            f"Ошибка при удалении! Ожидали 202 или 204, получили {response.status_code}. "
+            f"Ответ: {response.text}"
+        )

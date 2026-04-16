@@ -28,7 +28,8 @@ class TestYandexDiskAPI:
         copy_name = f"{folder_name}_copy"
 
         with allure.step("Создаем исходную папку"):
-            disk_client.create_folder(folder_name)
+            create_res = disk_client.create_folder(folder_name)
+            disk_assertions.assert_status_code(create_res, 201)
 
         with allure.step("Копируем"):
             copy_res = disk_client.copy_resource(folder_name, copy_name)
@@ -46,7 +47,8 @@ class TestYandexDiskAPI:
         folder_name = disk_faker.random_folder_name()
 
         with allure.step("Cоздание и удаление"):
-            disk_client.create_folder(folder_name)
+            create_res = disk_client.create_folder(folder_name)
+            disk_assertions.assert_status_code(create_res, 201)
             disk_client.delete_resource(folder_name)
 
         with allure.step("Восстановление из корзины"):
@@ -66,7 +68,9 @@ class TestYandexDiskAPI:
         folder_name = disk_faker.random_folder_name()
         disk_path = f"{folder_name}/test.txt"
 
-        disk_client.create_folder(folder_name)
+        with allure.step("Создание папки"):
+            create_res = disk_client.create_folder(folder_name)
+            disk_assertions.assert_status_code(create_res, 201)
 
         with allure.step("Загрузка файла"):
             link_res = disk_client.get_upload_link(disk_path)
